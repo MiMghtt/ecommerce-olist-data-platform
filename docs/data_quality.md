@@ -197,7 +197,176 @@ Ainda devem ser aprofundadas as validações de domínio e consistência, inclui
 - Integridade referencial entre as tabelas.
 - Validação de unicidade e consistência das chaves de negócio.
 
-## 10. Documentação complementar
+---
+
+# 10. Validação do Modelo Dimensional — Databricks
+
+## 10.1. Objetivo
+
+Complementar as validações realizadas durante o processamento Bronze e Silver com testes específicos da camada Gold, implementada no Databricks utilizando SQL e Delta Lake.
+
+As validações contemplam:
+
+- Volumetria das dimensões e tabelas fato.
+- Unicidade das chaves de negócio.
+- Granularidade das tabelas fato.
+- Integridade referencial entre fatos e dimensões.
+- Consistência das regras de classificação de entrega.
+- Identificação de exceções e inconsistências de negócio.
+
+Os scripts SQL estão disponíveis no diretório:
+
+`databricks/sql/validation/`
+
+## 10.2. Validação de volumetria
+
+Foram verificadas as quantidades de registros das oito tabelas que compõem o modelo dimensional.
+
+| Tabela | Registros |
+|---|---:|
+| dim_customer | 99.441 |
+| dim_product | 32.951 |
+| dim_seller | 3.095 |
+| dim_location | 19.015 |
+| dim_date | 799 |
+| fact_sales | 112.650 |
+| fact_payments | 103.886 |
+| fact_delivery_metrics | 99.441 |
+
+**Resultado:** as quantidades de registros correspondem aos resultados obtidos durante a construção do modelo dimensional.
+
+**Script:** `01_row_counts.sql`
+
+## 10.3. Validação de granularidade e unicidade
+
+Foram verificadas as chaves de negócio das três tabelas fato.
+
+| Tabela fato | Chave de negócio | Registros | Chaves distintas | Duplicidades |
+|---|---|---:|---:|---:|
+| fact_sales | order_id + order_item_id | 112.650 | 112.650 | 0 |
+| fact_payments | order_id + payment_sequential | 103.886 | 103.886 | 0 |
+| fact_delivery_metrics | order_id | 99.441 | 99.441 | 0 |
+
+**Resultado:** nenhuma duplicidade foi identificada nas chaves de negócio verificadas.
+
+As três tabelas respeitam suas respectivas granularidades:
+
+- Vendas: um registro por item de pedido.
+- Pagamentos: um registro por pagamento.
+- Entregas: um registro por pedido.
+
+**Script:** `02_grain_checks.sql`
+
+## 10.4. Integridade referencial
+
+Foram verificadas as correspondências entre as chaves substitutas das tabelas fato e suas respectivas dimensões.
+
+### fact_sales
+
+| Relacionamento | Registros sem correspondência |
+|---|---:|
+| Cliente | 0 |
+| Produto | 0 |
+| Vendedor | 0 |
+| Data da compra | 0 |
+
+### fact_payments
+
+| Relacionamento | Registros sem correspondência |
+|---|---:|
+| Cliente | 0 |
+| Data da compra | 0 |
+
+### fact_delivery_metrics
+
+| Relacionamento | Resultado |
+|---|---:|
+| Cliente sem dimensão | 0 |
+| Data da compra nula | 0 |
+| Data de entrega nula | 2.965 |
+
+As datas de entrega nulas foram preservadas, pois podem representar pedidos cancelados ou não entregues, além dos oito pedidos entregues com inconsistência na data.
+
+**Resultado:** não foram identificadas referências inválidas nas verificações de integridade executadas.
+
+**Script:** `03_referential_integrity.sql`
+
+## 10.5. Regras de negócio — Classificação de entregas
+
+A classificação da tabela `fact_delivery_metrics` foi ajustada para considerar o status original do pedido, além das datas efetivas e estimadas de entrega.
+
+| Classificação | Quantidade de pedidos |
+|---|---:|
+| delivered_on_time | 88.644 |
+| delivered_delayed | 7.826 |
+| delivery_data_inconsistent | 8 |
+| canceled | 625 |
+| not_delivered | 2.338 |
+| **Total** | **99.441** |
+
+### Indicadores de desempenho
+
+Considerando exclusivamente os pedidos com status `delivered`:
+
+| Indicador | Resultado |
+|---|---:|
+| Pedidos entregues | 96.478 |
+| Entregues no prazo | 88.644 |
+| Entregues com atraso | 7.826 |
+| Entregues sem data de entrega | 8 |
+| Percentual no prazo, entre pedidos entregues | 91,88% |
+| Percentual com atraso, entre pedidos entregues | 8,12% |
+
+Os percentuais consideram os 96.470 pedidos entregues com data efetiva, excluindo os oito registros inconsistentes.
+
+### Regras implementadas
+
+- Pedidos cancelados recebem a classificação `canceled`.
+- Pedidos com status `delivered` e sem data efetiva recebem `delivery_data_inconsistent`.
+- Pedidos entregues até a data estimada recebem `delivered_on_time`.
+- Pedidos entregues após a data estimada recebem `delivered_delayed`.
+- Os demais pedidos recebem `not_delivered`.
+
+**Script:** `04_delivery_quality.sql`
+
+## 10.6. Exceções identificadas no modelo dimensional
+
+Durante as verificações, foram identificadas as seguintes ocorrências:
+
+| Ocorrência | Quantidade | Tratamento |
+|---|---:|---|
+| Clientes sem correspondência geográfica | 278 | Preservados com `location_sk` nulo |
+| Vendedores sem correspondência geográfica | 7 | Preservados com `location_sk` nulo |
+| Pedidos entregues sem registro de pagamento | 1 | Preservado sem criação artificial de pagamento |
+| Pedidos entregues sem data efetiva | 8 | Classificados como `delivery_data_inconsistent` |
+
+Essas ocorrências foram preservadas para manter a rastreabilidade e evitar alterações artificiais nos dados de origem.
+
+## 10.7. Análise de valores financeiros
+
+Foram identificados os seguintes totais nas tabelas fato:
+
+| Indicador | Valor |
+|---|---:|
+| Vendas + frete | R$ 15.843.553,24 |
+| Pagamentos | R$ 16.008.872,12 |
+| Diferença | R$ 165.318,88 |
+
+Os valores ainda não foram conciliados.
+
+As tabelas possuem granularidades diferentes e representam conceitos de negócio distintos. Uma investigação adicional é necessária para identificar as causas da diferença antes de utilizar esses indicadores como valores financeiros equivalentes.
+
+## 10.8. Conclusão das validações da Gold
+
+A camada Gold apresentou os resultados esperados nas verificações de volumetria, granularidade e integridade referencial realizadas.
+
+As tabelas fato preservam suas respectivas chaves de negócio e granularidades, evitando duplicidades decorrentes de relacionamentos entre dados de diferentes níveis de detalhe.
+
+As exceções identificadas foram documentadas e preservadas, mantendo a rastreabilidade dos dados.
+
+Os scripts de criação e validação do modelo dimensional estão versionados no repositório para permitir reprodução, auditoria e manutenção da solução.
+
+## 12. Documentação complementar
 
 Para mais detalhes sobre a estrutura e as regras do projeto, consulte:
 
