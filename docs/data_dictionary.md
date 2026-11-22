@@ -273,9 +273,13 @@ Esses relacionamentos representam as associações lógicas entre as tabelas e p
 - A tabela `fact_delivery_metrics` é derivada da tabela de pedidos e possui granularidade de um registro por pedido.
 - As descrições e regras documentadas devem acompanhar futuras alterações nos esquemas e transformações do pipeline.
 
-## 8. Documentação complementar
+---
 
-Para mais detalhes sobre a estrutura e as regras do projeto, consulte:
+## Documentação complementar
 
-- [Data Quality](data_quality.md): regras de qualidade, conversões, duplicidades e validações.
-- [Architecture](architecture.md): descrição arquitetura e escopo do projeto.
+Para compreender como os dados são organizados, processados e utilizados na plataforma, consulte também:
+
+- [Arquitetura da Plataforma](architecture.md) — apresenta a arquitetura geral e o fluxo de processamento dos dados.
+- [Modelo Dimensional](dimensional_model.md) — descreve as relações entre dimensões e tabelas fato.
+- [Qualidade dos Dados](data_quality.md) — documenta as regras e validações aplicadas aos dados.
+- [Análise Exploratória](exploratory_data_analysis.md) — apresenta os resultados das análises realizadas sobre as tabelas do Data Warehouse.
