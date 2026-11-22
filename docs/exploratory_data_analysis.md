@@ -134,3 +134,14 @@ A análise identificou concentração de receita em determinadas categorias, dif
 Também foi observada baixa recorrência de compras, enquanto o cartão de crédito se destacou como principal meio de pagamento.
 
 Os resultados demonstram oportunidades de investigação em estratégias de retenção de clientes, eficiência logística e melhoria da experiência de compra.
+
+---
+
+## Documentação complementar
+
+Para consultar os detalhes técnicos e estruturais que dão suporte às análises, consulte também:
+
+- [Arquitetura da Plataforma](architecture.md) — apresenta a arquitetura e o fluxo de processamento dos dados.
+- [Modelo Dimensional](dimensional_model.md) — descreve as tabelas fato e dimensões utilizadas nas consultas.
+- [Dicionário de Dados](data_dictionary.md) — apresenta a descrição das tabelas e dos campos utilizados nas análises.
+- [Qualidade dos Dados](data_quality.md) — documenta as verificações e os critérios de qualidade aplicados à base.
