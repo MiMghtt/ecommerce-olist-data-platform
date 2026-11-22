@@ -180,3 +180,14 @@ Durante a construção e validação, foram identificadas as seguintes ocorrênc
 As ocorrências identificadas foram preservadas e documentadas, sem criação artificial de informações.
 
 Para consultar os detalhes dos testes, resultados e exceções identificadas, acesse [Qualidade dos Dados](data_quality.md).
+
+---
+
+## Documentação complementar
+
+Para aprofundar o entendimento do modelo dimensional e de sua utilização, consulte também:
+
+- [Arquitetura da Plataforma](architecture.md) — apresenta a arquitetura e o fluxo de construção das camadas de dados.
+- [Dicionário de Dados](data_dictionary.md) — detalha as tabelas, colunas e respectivos tipos de dados.
+- [Qualidade dos Dados](data_quality.md) — apresenta as verificações realizadas para garantir a consistência dos dados.
+- [Análise Exploratória](exploratory_data_analysis.md) — demonstra como as tabelas do modelo dimensional são utilizadas nas análises de negócio.
