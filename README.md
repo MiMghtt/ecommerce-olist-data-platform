@@ -316,11 +316,11 @@ As consultas SQL e visualizações foram desenvolvidas no Databricks.
 
 ### Relatório e visualizações
 
-O relatório completo, incluindo as conclusões, critérios de análise e gráficos, está disponível em:
+O relatório completo da análise exploratória, incluindo as perguntas de negócio, conclusões, critérios de análise e gráficos gerados, está disponível em:
 
 [Análise Exploratória de Dados](docs/exploratory_data_analysis.md)
 
-Os notebooks utilizados nas análises estão organizados em databricks/notebooks/.
+Os notebooks com os códigos SQL e Python utilizados na execução das análises estão organizados no diretório `databricks/notebooks/`, separados por área de negócio.
 
 ## 9. Premissas e Limitações
 
