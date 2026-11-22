@@ -320,14 +320,11 @@ O relatório completo, incluindo as conclusões, critérios de análise e gráfi
 
 [Análise Exploratória de Dados](docs/exploratory_data_analysis.md)
 
-Os notebooks utilizados nas análises estão organizados em `databricks/notebooks/`.
-
 ## 9. Premissas e Limitações
 
 ### Premissas
 
 - O dataset da Olist representa os dados disponibilizados para o período e escopo da base pública.
-- Os valores monetários são tratados conforme os campos originais do dataset, em reais.
 - A receita de produtos considera o campo `price`, sem incluir o valor do frete.
 - As análises de recorrência utilizam `customer_unique_id` como identificador do cliente.
 - Os cálculos de atraso consideram pedidos entregues com datas efetivas e estimadas disponíveis.
@@ -366,7 +363,23 @@ A documentação técnica do projeto está organizada na pasta [`docs/`](docs/).
 | [Modelo Dimensional](docs/dimensional_model.md) | Estrutura das dimensões e tabelas fato |
 | [Análise Exploratória](docs/exploratory_data_analysis.md) | Perguntas de negócio, resultados e gráficos |
 
-## 12. Repositório
+## 12. Uso de Ferramentas de Inteligência Artificial
+
+Durante o desenvolvimento deste projeto, foi utilizada a ferramenta **ChatGPT (OpenAI)** como apoio ao desenvolvimento técnico e à documentação.
+
+A ferramenta foi utilizada como suporte nas seguintes atividades:
+
+- **Desenvolvimento:** auxílio na revisão e compreensão de consultas SQL e códigos Python.
+- **Modelagem de dados:** apoio na discussão das decisões de modelagem dimensional e na definição da granularidade das tabelas fato.
+- **Qualidade dos dados:** auxílio na interpretação de inconsistências identificadas.
+- **Análise exploratória:** apoio na organização das conclusões.
+- **Documentação:** auxílio na organização e redação dos arquivos Markdown, incluindo README, documentação técnica e relatório de análise exploratória.
+
+## 13. Repositório
 
 **GitHub:** [ecommerce-olist-data-platform](https://github.com/MiMghtt/ecommerce-olist-data-platform)
+
+## 14. Autora
+
+**Linkedin:** [Michelle Marighetti](https://www.linkedin.com/in/mi-marighetti/)
 
