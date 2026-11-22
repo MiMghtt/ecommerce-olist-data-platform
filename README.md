@@ -320,6 +320,8 @@ O relatório completo, incluindo as conclusões, critérios de análise e gráfi
 
 [Análise Exploratória de Dados](docs/exploratory_data_analysis.md)
 
+Os notebooks utilizados nas análises estão organizados em databricks/notebooks/.
+
 ## 9. Premissas e Limitações
 
 ### Premissas
