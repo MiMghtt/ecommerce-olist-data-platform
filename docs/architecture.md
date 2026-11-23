@@ -213,9 +213,13 @@ Essa organização permite:
 
 A implementação atual utiliza execução local com PySpark. A arquitetura em camadas permite evoluções futuras para ambientes de processamento em nuvem e maior volume de dados, sem exigir que todas as regras de negócio sejam reimplementadas.
 
-## 9. Documentação complementar
+---
 
-Para mais detalhes sobre a estrutura e as regras do projeto, consulte:
+## Documentação complementar
 
-- [Data Quality](data_quality.md): regras de qualidade, conversões, duplicidades e validações.
-- [Data Dictionary](data_dictionary.md): descrição das tabelas, colunas, tipos e granularidade.
+Para aprofundar o entendimento da plataforma de dados, consulte também:
+
+- [Modelo Dimensional](dimensional_model.md) — apresenta a estrutura do Data Warehouse, suas dimensões e tabelas fato.
+- [Dicionário de Dados](data_dictionary.md) — detalha as tabelas, colunas, tipos de dados e descrições.
+- [Qualidade dos Dados](data_quality.md) — apresenta as verificações e regras utilizadas para avaliar a qualidade dos dados.
+- [Análise Exploratória](exploratory_data_analysis.md) — reúne as análises de negócio, consultas SQL e visualizações desenvolvidas.

@@ -366,9 +366,13 @@ As exceções identificadas foram documentadas e preservadas, mantendo a rastrea
 
 Os scripts de criação e validação do modelo dimensional estão versionados no repositório para permitir reprodução, auditoria e manutenção da solução.
 
-## 12. Documentação complementar
+---
 
-Para mais detalhes sobre a estrutura e as regras do projeto, consulte:
+## Documentação complementar
 
-- [Data Dictionary](data_dictionary.md): descrição das tabelas, colunas, tipos e granularidade.
-- [Architecture](architecture.md): descrição arquitetura e escopo do projeto.
+Para obter uma visão completa da plataforma e do contexto das validações realizadas, consulte também:
+
+- [Arquitetura da Plataforma](architecture.md) — explica o fluxo de ingestão, transformação e disponibilização dos dados.
+- [Dicionário de Dados](data_dictionary.md) — apresenta a estrutura e a descrição dos campos utilizados nas validações.
+- [Modelo Dimensional](dimensional_model.md) — detalha a organização das tabelas da camada analítica.
+- [Análise Exploratória](exploratory_data_analysis.md) — apresenta as consultas e análises utilizadas para investigar os dados.
